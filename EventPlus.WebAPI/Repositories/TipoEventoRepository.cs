@@ -6,10 +6,10 @@ namespace EventPlus.WebAPI.Repositories;
 
 public class TipoEventoRepository : ITipoEventoRepository
 {
-    private readonly UsuarioContext _context;
+    private readonly EventContext _context;
 
     //Injeção de dependência: recebe o contexto pelo construtor 
-    public TipoEventoRepository(UsuarioContext context)
+    public TipoEventoRepository(EventContext context)
     {
         _context = context; 
     }
@@ -22,13 +22,12 @@ public class TipoEventoRepository : ITipoEventoRepository
 
     public void Atualizar(Guid id, TipoEvento tipoEvento)
     {
-        var tipoEventoBuscado = _context.TipoUsuario.Find(id);
+        var tipoEventoBuscado = _context.TipoUsuarios.Find(id);
 
-        if(tipoEventoBuscado != null)
+        if (tipoEventoBuscado != null)
         {
-            tipoEventoBuscado.Titulo = tipoEvento.Titulo;
+            tipoEventoBuscado.Titulo = String.IsNullOrWhiteSpace(tipoEvento.Titulo) ? tipoEvento.Titulo : tipoEvento.Titulo;
 
-            //O SaveChanges() detecta a mudança na propriedade "Titulo" automaticamente
             _context.SaveChanges();
         }
     }
@@ -40,7 +39,7 @@ public class TipoEventoRepository : ITipoEventoRepository
     /// <returns>Objeto do tipoEvento com as informações do tipo de evento buscado</returns>
     public TipoEvento BuscarPorId(Guid id)
     {
-        return _context.TipoUsuario.Find(id)!;
+        return _context.TipoEventos.Find(id)!;
     }
       
     /// <summary>
@@ -50,7 +49,7 @@ public class TipoEventoRepository : ITipoEventoRepository
 
     public void Cadastrar(TipoEvento tipoEvento)
     {
-        _context.TipoUsuario.Add(tipoEvento);
+        _context.TipoEventos.Add(tipoEvento);
         _context.SaveChanges();
     }
 
@@ -60,11 +59,11 @@ public class TipoEventoRepository : ITipoEventoRepository
     /// <param name="id">id do tipo evento a ser deletado</param>
     public void Deletar(Guid id)
     {
-        var tipoEventoBuscado = _context.TipoUsuario.Find(id);
+        var tipoEventoBuscado = _context.TipoEventos.Find(id);
 
         if (tipoEventoBuscado != null)
         {
-            _context.TipoUsuario.Remove(tipoEventoBuscado);
+            _context.TipoEventos.Remove(tipoEventoBuscado);
             _context.SaveChanges();
         }
     }
@@ -75,6 +74,6 @@ public class TipoEventoRepository : ITipoEventoRepository
     /// <returns>Uma lista de tipo de eventos</returns>
     public List<TipoEvento> Listar()
     {
-        return _context.TipoUsuario.OrderBy(tipoEvento => tipoEvento.Titulo).ToList();
+        return _context.TipoEventos.OrderBy(tipoEvento => tipoEvento.Titulo).ToList();
     }
 }

@@ -6,41 +6,46 @@ namespace EventPlus.WebAPI.Repositories;
 
 public class TipoUsuarioRepository : ITipoUsuarioRepository
 {
-    private readonly UsuarioContext _context;
+    private readonly EventContext _context;
 
-    public TipoUsuarioRepository(UsuarioContext context)
+    public TipoUsuarioRepository(EventContext context)
     {
         _context = context;
     }
 
-    /// <summary>
-    /// Busca um tipo de usuario por email
-    /// </summary>
-    /// <param name="Email">email do tipo usuario a ser buscado</param>
-    /// <param name="Senha">senha do tipo usuario a ser buscado</param>
-    /// <returns>Objeto do tipoUsuario com as informações do tipo de usuario buscado</returns>
-    public Usuario BuscarPorEmail(string Email, string Senha)
+    public List<TipoUsuario> Listar()
     {
-        return _context.Usuarios.FirstOrDefault(u => u.Email == Email && u.Senha == Senha)!;
+        return _context.TipoUsuarios.ToList();
     }
 
-    /// <summary>
-    /// Busca um tipo de usuario por id
-    /// </summary>
-    /// <param name="id">id do tipo usuario a ser buscado</param>
-    /// <returns>Objeto do tipoUsuario com as informações do tipo de usuario buscado</returns>
-    public Usuario BuscarPorId(Guid id)
+    public TipoUsuario BuscarPorId(Guid id)
     {
-        return _context.Usuarios.Find(id)!;
+        return _context.TipoUsuarios.Find(id)!;
     }
 
-    /// <summary>
-    /// Cadastra um novo tipo de usuario
-    /// </summary>
-    /// <param name="usuario">tipo de usuario a ser cadastrado</param>
-    public void Cadastrar(Usuario usuario)
+    public void Cadastrar(TipoUsuario tipoUsuario)
     {
-        _context.Usuarios.Add(usuario);
+        _context.TipoUsuarios.Add(tipoUsuario);
+        _context.SaveChanges();
+    }
+
+    public void Atualizar(Guid id, TipoUsuario tipoUsuario)
+    {
+        var tipoUsuarioBuscado = _context.TipoUsuarios.Find(id);
+
+        if (tipoUsuarioBuscado != null)
+        {
+            tipoUsuarioBuscado.Titulo = String.IsNullOrWhiteSpace(tipoUsuario.Titulo) ? tipoUsuario.Titulo : tipoUsuarioBuscado.Titulo;
+
+            _context.SaveChanges();
+        }
+    }
+
+    public void Deletar(Guid id)
+    {
+        TipoUsuario tipoUsuarioBuscado = _context.TipoUsuarios.Find(id)!;
+
+        _context.TipoUsuarios.Remove(tipoUsuarioBuscado);
         _context.SaveChanges();
     }
 }

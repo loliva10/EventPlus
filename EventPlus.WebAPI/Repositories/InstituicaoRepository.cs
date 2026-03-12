@@ -6,9 +6,9 @@ namespace EventPlus.WebAPI.Repositories;
 
 public class InstituicaoRepository : IInstituicaoRepository
 {
-    private readonly UsuarioContext _context;
+    private readonly EventContext _context;
 
-    public InstituicaoRepository(UsuarioContext context)
+    public InstituicaoRepository(EventContext context)
     {
         _context = context;
     }
@@ -24,7 +24,9 @@ public class InstituicaoRepository : IInstituicaoRepository
 
         if (instituicaoBuscada != null)
         {
-            instituicaoBuscada.NomeFantasia = instituicao.NomeFantasia;
+            instituicaoBuscada.NomeFantasia = String.IsNullOrWhiteSpace(instituicaoBuscada.NomeFantasia) ? instituicaoBuscada.NomeFantasia : instituicaoBuscada.NomeFantasia;
+            instituicaoBuscada.Cnpj = String.IsNullOrWhiteSpace(instituicao.Cnpj) ? instituicaoBuscada.Cnpj : instituicao.Cnpj;
+            instituicaoBuscada.Endereco = String.IsNullOrWhiteSpace(instituicao.Endereco) ? instituicaoBuscada.Endereco : instituicao.Endereco;
 
             _context.SaveChanges();
         }
@@ -46,9 +48,12 @@ public class InstituicaoRepository : IInstituicaoRepository
     /// <param name="instituicao">dados da instituicao a ser cadastrado</param>
     public void Cadastrar(Instituicao instituicao)
     {
+        instituicao.IdInstituicao = Guid.NewGuid();
+
         _context.Instituicaos.Add(instituicao);
         _context.SaveChanges();
     }
+
 
     /// <summary>
     /// Deleta uma instituicao

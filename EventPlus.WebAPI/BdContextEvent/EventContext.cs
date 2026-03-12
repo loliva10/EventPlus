@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventPlus.WebAPI.BdContextEvent;
 
-public partial class UsuarioContext : DbContext
+public partial class EventContext : DbContext
 {
-    public UsuarioContext()
+    public EventContext()
     {
     }
 
-    public UsuarioContext(DbContextOptions<UsuarioContext> options)
+    public EventContext(DbContextOptions<EventContext> options)
         : base(options)
     {
     }
@@ -24,7 +24,7 @@ public partial class UsuarioContext : DbContext
 
     public virtual DbSet<Presenca> Presencas { get; set; }
 
-    public virtual DbSet<TipoEvento> TipoUsuario { get; set; }
+    public virtual DbSet<TipoEvento> TipoEventos { get; set; }
 
     public virtual DbSet<TipoUsuario> TipoUsuarios { get; set; }
 
