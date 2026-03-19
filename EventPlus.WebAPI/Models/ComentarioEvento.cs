@@ -21,7 +21,7 @@ public partial class ComentarioEvento
     [Column(TypeName = "datetime")]
     public DateTime DataComentarioEvento { get; set; }
 
-    public Guid? IdUsurio { get; set; }
+    public Guid? IdUsuario { get; set; }
 
     public Guid? IdEvento { get; set; }
 
@@ -31,5 +31,5 @@ public partial class ComentarioEvento
 
     [ForeignKey("IdUsurio")]
     [InverseProperty("ComentarioEventos")]
-    public virtual Usuario? IdUsurioNavigation { get; set; }
+    public virtual Usuario? IdUsuarioNavigation { get; set; }
 }

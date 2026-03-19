@@ -2,6 +2,7 @@
 using EventPlus.WebAPI.Interfaces;
 using EventPlus.WebAPI.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -36,13 +37,9 @@ public class LoginController : ControllerBase
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Jti, usuarioBuscado.IdUsuario.ToString()),
-
                 new Claim(JwtRegisteredClaimNames.Email, usuarioBuscado.Email!),
-
-                //new Claim(JwtRegisteredClaimNames.Typ, usuarioBuscado.IdTipoUsuarioNavigation!.Titulo),
-
-                // Claim personalizada
-                new Claim("Titulo", usuarioBuscado.IdTipoUsuarioNavigation?.Titulo ?? "SemTipo"),
+                new Claim(JwtRegisteredClaimNames.Jti, usuarioBuscado.IdUsuario.ToString()),
+                new Claim(ClaimTypes.Role, usuarioBuscado.IdTipoUsuarioNavigation!.Titulo)
             };
 
             // 2º - Definir a chave de acesso ao token
