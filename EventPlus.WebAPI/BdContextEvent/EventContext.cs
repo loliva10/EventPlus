@@ -45,7 +45,7 @@ public partial class EventContext : DbContext
 
             entity.HasOne(d => d.IdEventoNavigation).WithMany(p => p.ComentarioEventos).HasConstraintName("FK__Comentari__IdEve__76969D2E");
 
-            entity.HasOne(d => d.IdUsurioNavigation).WithMany(p => p.ComentarioEventos).HasConstraintName("FK__Comentari__IdUsu__75A278F5");
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.ComentarioEventos).HasConstraintName("FK__Comentari__IdUsu__75A278F5");
         });
 
         modelBuilder.Entity<Evento>(entity =>

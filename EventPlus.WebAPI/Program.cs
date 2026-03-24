@@ -1,3 +1,4 @@
+using Azure.AI.ContentSafety;
 using EventPlus.WebAPI.BdContextEvent;
 using EventPlus.WebAPI.Interfaces;
 using EventPlus.WebAPI.Models;
@@ -8,6 +9,13 @@ using Microsoft.OpenApi;
 using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var endpoint = "";
+var apiKey = "";
+
+var client = new ContentSafetyClient(new Uri(endpoint), new Azure.AzureKeyCredential(apiKey));
+
+builder.Services.AddSingleton(client);
 
 builder.Services.AddDbContext<EventContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
